@@ -1,0 +1,22 @@
+**/node_modules/
+**/dist/
+**/build/
+**/coverage/
+**/.vite/
+
+# Local configuration and credentials
+**/.env*
+!**/.env.example
+**/credentials.*
+**/*credentials*
+**/*.pem
+**/*.key
+
+# Logs
+**/*.log
+**/logs/
+
+# Uploaded files are local data; keep only the bundled seed fixtures.
+backend/uploads/*
+!backend/uploads/.gitkeep
+!backend/uploads/seed-hotel-*.jpg
