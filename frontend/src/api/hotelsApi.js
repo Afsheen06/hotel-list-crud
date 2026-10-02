@@ -1,7 +1,7 @@
 // Thin wrapper around fetch() for all hotel-related HTTP calls.
 // Kept separate from Redux so the request logic is easy to read/test on its own.
 //
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5000/api');
 
 async function handleResponse(res) {
   const body = await res.json().catch(() => ({}));

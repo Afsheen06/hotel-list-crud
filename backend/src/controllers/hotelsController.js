@@ -49,6 +49,15 @@ function validateHotelInput(body, { requireAll }) {
 
 function deleteImageFile(imagePath) {
   if (!imagePath) return;
+  if (imagePath.startsWith('https://')) {
+    const match = imagePath.match(/^https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/v\d+\/(hotel-list-crud\/.+)\.[a-zA-Z0-9]+$/);
+    if (match && process.env.CLOUDINARY_URL) {
+      require('cloudinary').v2.uploader.destroy(match[1]).catch(() => console.error('Cloud image cleanup failed'));
+    }
+    return;
+  }
+  // Bundled sample photos must remain available after a redeploy.
+  if (path.basename(imagePath).startsWith('seed-hotel-')) return;
   const fileName = path.basename(imagePath);
   const fullPath = path.join(uploadDir, fileName);
   fs.unlink(fullPath, (err) => {
@@ -154,7 +163,7 @@ async function createHotel(req, res) {
     }
 
     const { title, description, latitude, longitude, price } = req.body;
-    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+    const imagePath = req.file ? (req.file.filename.startsWith('https://') ? req.file.filename : `/uploads/${req.file.filename}`) : null;
 
     const result = await pool.query(
       `INSERT INTO hotels (title, description, latitude, longitude, price, image_path)
@@ -196,7 +205,7 @@ async function updateHotel(req, res) {
     let imagePath = existing.rows[0].image_path;
 
     if (req.file) {
-      imagePath = `/uploads/${req.file.filename}`;
+      imagePath = (req.file.filename.startsWith('https://') ? req.file.filename : `/uploads/${req.file.filename}`);
     }
 
     const result = await pool.query(

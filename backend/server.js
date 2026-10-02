@@ -26,6 +26,16 @@ app.use((err, req, res, next) => {
   next();
 });
 
+// Serve the React production build and support direct detail-page links.
+if (process.env.NODE_ENV === 'production') {
+  const frontendDir = path.join(__dirname, '..', 'frontend', 'dist');
+  app.use(express.static(frontendDir));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/') || req.path.startsWith('/uploads/')) return next();
+    res.sendFile(path.join(frontendDir, 'index.html'));
+  });
+}
+
 // 404 handler
 app.use((req, res) => res.status(404).json({ error: 'Route not found' }));
 

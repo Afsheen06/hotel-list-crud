@@ -9,7 +9,7 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-const storage = multer.diskStorage({
+const localStorage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
@@ -17,6 +17,24 @@ const storage = multer.diskStorage({
     cb(null, `hotel-${uniqueSuffix}${ext}`);
   },
 });
+
+const cloudinary = require('cloudinary').v2;
+const cloudEnabled = Boolean(process.env.CLOUDINARY_URL);
+if (process.env.NODE_ENV === 'production' && !cloudEnabled) {
+  throw new Error('CLOUDINARY_URL is required in production for persistent images');
+}
+const storage = cloudEnabled ? {
+  _handleFile(req, file, cb) {
+    const stream = cloudinary.uploader.upload_stream({ folder: 'hotel-list-crud', resource_type: 'image' },
+      (err, result) => cb(err, result ? { filename: result.secure_url, public_id: result.public_id } : undefined));
+    file.stream.on('error', (err) => stream.destroy(err));
+    file.stream.pipe(stream);
+  },
+  _removeFile(req, file, cb) {
+    if (!file.public_id) return cb(null);
+    cloudinary.uploader.destroy(file.public_id).then(() => cb(null), cb);
+  },
+} : localStorage;
 
 const allowedTypes = /jpeg|jpg|png|webp/;
 

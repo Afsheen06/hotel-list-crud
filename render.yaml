@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: hotel-list-crud
+    runtime: node
+    plan: free
+    buildCommand: npm ci --prefix backend && npm ci --prefix frontend --include=dev && npm run build --prefix frontend
+    startCommand: cd backend && node scripts/init-db.js && npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.16.0
+      - key: NODE_ENV
+        value: production
+      - key: VITE_API_BASE_URL
+        value: /api
+      - key: DATABASE_URL
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
