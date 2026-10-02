@@ -75,6 +75,7 @@ export default function HotelForm({ initialData, onSubmit, submitting, submitLab
   return (
     <form className="hotel-form" onSubmit={handleSubmit} noValidate>
       <h2>{initialData ? 'Edit Hotel' : 'Add a New Hotel'}</h2>
+      <p className="form-intro">Add the details that help guests discover this stay. All fields are required.</p>
 
       <div
         className="image-upload-box"
@@ -92,7 +93,7 @@ export default function HotelForm({ initialData, onSubmit, submitting, submitLab
         {previewUrl ? (
           <img src={previewUrl} alt="Hotel preview" className="image-preview" />
         ) : (
-          <span>Click to upload a hotel image (JPEG, PNG or WEBP, max 5MB)</span>
+          <span><strong className="upload-title">Choose a hotel photo</strong><span>JPEG, PNG or WEBP · up to 5MB</span></span>
         )}
         <input
           ref={fileInputRef}
@@ -132,6 +133,7 @@ export default function HotelForm({ initialData, onSubmit, submitting, submitLab
           {errors.description && <p className="error-text">{errors.description}</p>}
         </div>
 
+        <div className="span-2 form-section-heading">Location <span>Use the hotel’s map coordinates.</span></div>
         <div className="field-group">
           <label htmlFor="latitude">Latitude</label>
           <input

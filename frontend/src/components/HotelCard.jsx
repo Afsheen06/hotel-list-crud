@@ -17,7 +17,7 @@ export default function HotelCard({ hotel, onEdit, onDeleteRequest }) {
         <h3 className="hotel-card-title">
           <Link className="hotel-card-link" to={`/hotels/${hotel.id}`}>{hotel.title}</Link>
         </h3>
-        <div className="hotel-card-price">₹{Number(hotel.price).toLocaleString('en-IN')} / night</div>
+        <div className="hotel-card-price">₹{Number(hotel.price).toLocaleString('en-IN')} <span className="price-unit">/ night</span></div>
         <p className="hotel-card-desc">{hotel.description}</p>
         <div className="hotel-card-actions">
           <button className="btn btn-secondary btn-sm" onClick={() => onEdit(hotel)}>

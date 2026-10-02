@@ -32,7 +32,7 @@ export default function SearchFilter({ filters, onApply }) {
       </div>
 
       <div className="field-group">
-        <label>Price range</label>
+        <label>Price per night (₹)</label>
         <div className="price-range-inputs">
           <input
             type="number"
@@ -59,7 +59,7 @@ export default function SearchFilter({ filters, onApply }) {
       </div>
 
       <button type="submit" className="btn btn-primary">Apply</button>
-      <button type="button" className="btn btn-secondary" onClick={handleReset}>Reset</button>
+      <button type="button" className="btn btn-secondary" onClick={handleReset}>Reset filters</button>
     </form>
   );
 }

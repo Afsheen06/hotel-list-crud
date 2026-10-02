@@ -113,14 +113,17 @@ export default function HotelListPage() {
         </>
       ) : (
         <>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-            <h2 style={{ margin: 0 }}>Hotels</h2>
+          <div className="list-heading">
+            <div><p className="eyebrow">EXPLORE & DISCOVER</p><h2>Find your next stay</h2>
+            <p className="page-intro">A little inspiration for your next getaway. Find a hotel that feels right.</p></div>
             <button className="btn btn-primary" onClick={() => setFormMode('add')}>
               + Add Hotel
             </button>
           </div>
 
           <SearchFilter filters={filters} onApply={(next) => dispatch(setFilters(next))} />
+
+          <p className="results-summary" role="status">{status === 'loading' ? 'Finding hotels…' : status === 'failed' ? 'Unable to load hotels' : `${total} ${total === 1 ? 'hotel' : 'hotels'} found`}</p>
 
           <HotelList
             hotels={items}

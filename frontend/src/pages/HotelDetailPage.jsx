@@ -80,8 +80,8 @@ export default function HotelDetailPage() {
         </div>
 
         <div>
-          <h1 style={{ marginBottom: 4 }}>{hotel.title}</h1>
-          <div className="detail-price">₹{Number(hotel.price).toLocaleString('en-IN')} / night</div>
+          <h1 className="detail-title">{hotel.title}</h1>
+          <div className="detail-price">₹{Number(hotel.price).toLocaleString('en-IN')} <span className="price-unit">/ night</span></div>
           <div className="detail-meta">
             <span>Lat: {Number(hotel.latitude).toFixed(4)}</span>
             <span>Lng: {Number(hotel.longitude).toFixed(4)}</span>
