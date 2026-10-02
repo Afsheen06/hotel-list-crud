@@ -48,7 +48,7 @@ psql -U postgres -d hotel_db -f backend/src/config/schema.sql
 
 On Windows PowerShell, run the same `psql` commands from the project root.
 
-**2. Seed sample data (optional but recommended for demos)**
+**2. Seed sample data **
 ```bash
 psql -U postgres -d hotel_db -f backend/src/config/seed.sql
 ```
